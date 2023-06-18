@@ -12,7 +12,7 @@ import datetime
 
 
 #Funktioner fra de af scripts bliver her importeret, så de kan bruges i GUI'en
-from Design1_ny2 import init, read_ADC, channel_select, mesure_temps, GPIOCleanup, LED
+from MeasureTemps import init, read_ADC, channel_select, mesure_temps, GPIOCleanup, LED
 
 from PID_functions import P_control, I_control, D_control
 
@@ -22,7 +22,6 @@ from Regulering import regInit, regulering, GAIN_PID
 def center(win):
     '''
     Funktionen centrerer vinduerne efter en  given skærms størrelse.
-    Det gøres at hente skærmens højde og bredde.
     '''
     win.update_idletasks()
     width = win.winfo_width()
@@ -40,7 +39,7 @@ def file_saver(Tw,GAIN,temps):
         '''
         Til at gemme det data som bliver lavet undervejs, er der lavet en funktion
         som tager en forlavet .csv fil, og skriver til denne for hver iteration.
-        På den måde risikerer man ikke at alt data går tabt, hvis nu RPi'en skulle miste forbindelsen.-
+        På den måde risikerer man ikke at alt data går tabt, hvis nu RPi'en skulle miste forbindelsen.
         '''
         with open('../GUI_ting/Design1_stoejtest2.csv','a') as f: #Åbning af skabelon-fil
             x = np.array([[datetime.datetime.now()]])
@@ -87,14 +86,14 @@ GAIN = []
 
 
 def TempGUI(window):
-        global t, T410, Tw, design_num, c
-        global Tr, rows, GAIN, E2, E1, ax0, ax1, graph
         '''
         Funktionen er det hovedsaglige kode til GUI'en.
         Her bliver der lavet 22 'entries' hvori temperatur, gain, ønsket- og nuværende temperatur, bliver vist.
         Det er også i denne funktion værdierne bliver opdateret, ved at køre funktionen igen, og igen efter 100 ms.
         Graferne der blev lavet med den tidligere funktion, bliver her vist i vinduet.
         '''
+        global t, T410, Tw, design_num, c
+        global Tr, rows, GAIN, E2, E1, ax0, ax1, graph
         if c == 0: #Her bliver vinudet initialiseret. Der laves 20 entries hvori temperaturer og gainet vises. Canvas til graferne bliver også lavet her.
                     #På den måde undgås der hukommelsesfejl på RPi'en.
             #Entries
